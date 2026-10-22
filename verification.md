@@ -29,3 +29,11 @@ The originating X post is attributed near the top of the guide. The post itself 
 ## Public artifact boundary
 
 The public repository contains the operations guide, public incident notes, publication documentation and site source. Internal handoff notes, downloaded raw captures, local credentials and generated preview files are excluded. The site build deploys only its generated `dist/` output and offers Markdown downloads of the public guide and notes.
+
+## Site verification
+
+The publication build checked all 27 incident pages, 27 directory entries and 613 local content/asset links. A separate fragment check found no unresolved internal anchors. The staged public files and generated site were checked for private-key blocks and accidental local references; raw captures and handoff notes were excluded. The installed dependency audit reported no known vulnerabilities at publication time.
+
+Browser checks used installed headless Chrome with software WebGL at desktop and 390-pixel mobile widths. All nine fractal fields rendered; separated animation frames changed, settled paused frames matched, and pause persisted after reload. An alternate light theme, large text, 5-pixel terrain and brightness controls worked. Search, response filters, incident navigation, reduced motion, the WebGL-disabled static fallback and bounded scroll movement were exercised. No browser console errors, failed requests or page overflow were observed. Without JavaScript, all 27 incident links remained available.
+
+These checks cover the tested browser and viewports. Native Safari, physical mobile devices and hardware-specific rendering performance were not tested.
