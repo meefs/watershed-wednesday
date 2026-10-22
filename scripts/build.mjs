@@ -1,5 +1,6 @@
 import {readFile, writeFile, mkdir, readdir, copyFile, rm} from 'node:fs/promises';
 import {join, dirname} from 'node:path';
+import {createHash} from 'node:crypto';
 import {marked} from 'marked';
 import sanitizeHtml from 'sanitize-html';
 import {build} from 'esbuild';
@@ -7,6 +8,7 @@ import {renderPage} from '../site/template.mjs';
 
 process.chdir(new URL('..', import.meta.url).pathname);
 const out = 'dist';
+const imageVersion = createHash('sha256').update(await readFile('site/og-image.png')).digest('hex').slice(0,12);
 await rm(out, {recursive:true, force:true});
 await mkdir(join(out,'assets'), {recursive:true});
 await mkdir(join(out,'incidents'), {recursive:true});
@@ -28,7 +30,7 @@ function html(markdown, base='./') {
 }
 async function page(path, title, description, body, kind='reference') {
   const base=path.startsWith('incidents/')?'../':'./';
-  await writeFile(join(out,path),renderPage({title,description,body,base,kind,path}));
+  await writeFile(join(out,path),renderPage({title,description,body,base,kind,path,imageVersion}));
 }
 const report = await readFile('Watershed-Wednesday.md','utf8');
 const tokens = marked.lexer(report);
@@ -79,5 +81,5 @@ for(const file of ['LICENSE','NOTICE']) {
 notices+='\nOther build dependencies are listed in package-lock.json. Generated original content has no blanket reuse license; see ATTRIBUTION.md.\n';
 await writeFile(join(out,'assets/THIRD-PARTY-NOTICES.txt'),notices);
 await writeFile(join(out,'.nojekyll'),'');
-await writeFile(join(out,'404.html'),renderPage({title:'Page not found',description:'Return to the field guide.',body:'<article class="prose"><h1>Page not found.</h1><p><a href="/watershed-wednesday/">Return to Watershed Wednesday</a>.</p></article>',base:'/watershed-wednesday/',kind:'reference',path:'404.html'}));
+await writeFile(join(out,'404.html'),renderPage({title:'Page not found',description:'Return to the field guide.',body:'<article class="prose"><h1>Page not found.</h1><p><a href="/watershed-wednesday/">Return to Watershed Wednesday</a>.</p></article>',base:'/watershed-wednesday/',kind:'reference',path:'404.html',imageVersion}));
 console.log('Built October 2026 edition: 27 incident pages, searchable directory and source downloads.');

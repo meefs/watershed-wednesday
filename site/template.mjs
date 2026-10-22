@@ -1,11 +1,11 @@
 const escape = (value) => String(value).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const themes = [['army','Army'],['navy','Navy'],['arctic','Arctic'],['red','Red'],['pink','Baker-Miller Pink']];
 const fields = ['Fractal coastlines','Julia lace','Julia islands','Julia vines','Julia snow','Burning ship','Tricorn deltas','Cubic estuary','Seahorse valley'];
-export function renderPage({title,description,body,base='./',kind='home',path='index.html'}) {
+export function renderPage({title,description,body,base='./',kind='home',path='index.html',imageVersion=''}) {
 const siteUrl = 'https://meefs.github.io/watershed-wednesday/';
 const pageUrl = new URL(path === 'index.html' ? '' : path, siteUrl).href;
-const imageUrl = `${siteUrl}og-image.png`;
-const imageAlt = 'Watershed Wednesday — October 2026 security operations field guide. 27 incidents: patch, rotate, hunt and distrust.';
+const imageUrl = `${siteUrl}og-image.png${imageVersion ? `?v=${imageVersion}` : ''}`;
+const imageAlt = 'Watershed Wednesday — October 2026 security operations field guide. 27 incidents. A practical route from disclosure to response. Starting point: @aisafetymemes’ original thread.';
 return `<!doctype html>
 <html lang="en" data-theme="navy" data-mode="dark" data-size="m"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
