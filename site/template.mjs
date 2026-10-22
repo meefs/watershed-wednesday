@@ -1,13 +1,20 @@
 const escape = (value) => String(value).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const themes = [['army','Army'],['navy','Navy'],['arctic','Arctic'],['red','Red'],['pink','Baker-Miller Pink']];
 const fields = ['Fractal coastlines','Julia lace','Julia islands','Julia vines','Julia snow','Burning ship','Tricorn deltas','Cubic estuary','Seahorse valley'];
-export function renderPage({title,description,body,base='./',kind='home'}) {
+export function renderPage({title,description,body,base='./',kind='home',path='index.html'}) {
+const siteUrl = 'https://meefs.github.io/watershed-wednesday/';
+const pageUrl = new URL(path === 'index.html' ? '' : path, siteUrl).href;
+const imageUrl = `${siteUrl}og-image.png`;
+const imageAlt = 'Watershed Wednesday — October 2026 security operations field guide. 27 incidents: patch, rotate, hunt and distrust.';
 return `<!doctype html>
 <html lang="en" data-theme="navy" data-mode="dark" data-size="m"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${escape(title)}</title><meta name="description" content="${escape(description)}">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2379c6f2'/%3E%3Ctext x='10' y='46' font-size='43' font-family='Georgia' font-weight='bold' fill='%23060d1f'%3EW%3C/text%3E%3C/svg%3E">
-<meta name="theme-color" content="#060d1f"><meta property="og:title" content="${escape(title)}"><meta property="og:description" content="${escape(description)}"><meta property="og:type" content="article">
+<meta name="theme-color" content="#060d1f"><link rel="canonical" href="${escape(pageUrl)}">
+<meta property="og:site_name" content="Watershed Wednesday"><meta property="og:title" content="${escape(title)}"><meta property="og:description" content="${escape(description)}"><meta property="og:type" content="${kind === 'home' ? 'website' : 'article'}"><meta property="og:url" content="${escape(pageUrl)}">
+<meta property="og:image" content="${imageUrl}"><meta property="og:image:secure_url" content="${imageUrl}"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="${imageAlt}">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${escape(title)}"><meta name="twitter:description" content="${escape(description)}"><meta name="twitter:image" content="${imageUrl}"><meta name="twitter:image:alt" content="${imageAlt}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800;9..144,900&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="${base}assets/site.css"><script type="module" src="${base}assets/site.js"></script>

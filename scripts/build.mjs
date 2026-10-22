@@ -28,7 +28,7 @@ function html(markdown, base='./') {
 }
 async function page(path, title, description, body, kind='reference') {
   const base=path.startsWith('incidents/')?'../':'./';
-  await writeFile(join(out,path),renderPage({title,description,body,base,kind}));
+  await writeFile(join(out,path),renderPage({title,description,body,base,kind,path}));
 }
 const report = await readFile('Watershed-Wednesday.md','utf8');
 const tokens = marked.lexer(report);
@@ -71,6 +71,7 @@ await copyFile('Watershed-Wednesday.md',join(out,'source/Watershed-Wednesday.md'
 await page('Watershed-Wednesday.html','Operations guide — October 2026','Canonical operations guide.',`<article class="prose">${html(report)}</article>`);
 await build({entryPoints:['site/site.js'],bundle:true,format:'esm',minify:true,outfile:join(out,'assets/site.js'),legalComments:'eof',target:['es2022']});
 await copyFile('site/site.css',join(out,'assets/site.css'));
+await copyFile('site/og-image.png',join(out,'og-image.png'));
 let notices='Watershed Wednesday — third-party notices\n\n@paper-design/shaders 0.0.81\n';
 for(const file of ['LICENSE','NOTICE']) {
   try {notices+='\n'+await readFile(join('node_modules/@paper-design/shaders',file),'utf8')+'\n';}catch(e){if(file==='LICENSE') throw e;}
@@ -78,5 +79,5 @@ for(const file of ['LICENSE','NOTICE']) {
 notices+='\nOther build dependencies are listed in package-lock.json. Generated original content has no blanket reuse license; see ATTRIBUTION.md.\n';
 await writeFile(join(out,'assets/THIRD-PARTY-NOTICES.txt'),notices);
 await writeFile(join(out,'.nojekyll'),'');
-await writeFile(join(out,'404.html'),renderPage({title:'Page not found',description:'Return to the field guide.',body:'<article class="prose"><h1>Page not found.</h1><p><a href="/watershed-wednesday/">Return to Watershed Wednesday</a>.</p></article>',base:'/watershed-wednesday/',kind:'reference'}));
+await writeFile(join(out,'404.html'),renderPage({title:'Page not found',description:'Return to the field guide.',body:'<article class="prose"><h1>Page not found.</h1><p><a href="/watershed-wednesday/">Return to Watershed Wednesday</a>.</p></article>',base:'/watershed-wednesday/',kind:'reference',path:'404.html'}));
 console.log('Built October 2026 edition: 27 incident pages, searchable directory and source downloads.');
