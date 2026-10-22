@@ -1,0 +1,21 @@
+{
+  "name": "watershed-wednesday",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "October 2026 security operations field guide",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/check.mjs",
+    "preview": "node scripts/preview.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@paper-design/shaders": "0.0.81",
+    "esbuild": "0.25.12",
+    "marked": "15.0.12",
+    "sanitize-html": "2.18.1"
+  }
+}
